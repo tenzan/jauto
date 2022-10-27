@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('sku');
+            $table->string('name');
+            $table->string('country');
+            $table->string('date');
             $table->timestamps();
         });
     }

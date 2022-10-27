@@ -14,7 +14,11 @@ class ItemController extends Controller
      */
     public function index()
     {
-        return view('items.index');
+        return view('items.index', [
+
+            'items' => Item::with('user')->latest()->get(),
+
+        ]);
     }
 
     /**
@@ -35,7 +39,18 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+
+            'sku' => 'required|string|max:20',
+            'name' => 'required|string|max:20',
+            'country' => 'required|string|max:20',
+            'date' => 'required|date|max:20',
+
+        ]);
+
+        $request->user()->items()->create($validated);
+
+        return redirect(route('items.index'));
     }
 
     /**
